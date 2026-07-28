@@ -1,0 +1,41 @@
+# Local dev stack. Postgres is real and usable as-is. `backend` and
+# `frontend` build from the Dockerfiles below -- neither image has been
+# built/run in the sandbox this repo was developed in (no Docker daemon
+# available there); the backend has been verified extensively via
+# `uvicorn` directly instead (see README). Treat the Dockerfiles as
+# reasonable-but-unverified until you've built them yourself.
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: localdev
+      POSTGRES_DB: servicing
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgresql+psycopg://postgres:localdev@postgres:5432/servicing
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:

@@ -1,0 +1,8 @@
+{
+  "version_id": "v4",
+  "intent": "card_replacement",
+  "effective_from": "2026-01-01T00:00:00+00:00",
+  "approved_by": "ILLUSTRATIVE_PLACEHOLDER -- compliance:m.osei#CR-2025-1219",
+  "git_commit_sha": "PLACEHOLDER",
+  "ruleset": {}
+}

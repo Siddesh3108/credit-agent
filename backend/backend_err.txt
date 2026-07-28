@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "C:\Users\sidlo\Desktop\card-servicing-agent\backend\app\orchestration\nodes\route_node.py", line 47, in policy_check_node
+    account = deps.core_banking.get_account_summary(account_ref)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sidlo\Desktop\card-servicing-agent\backend\app\integrations\mocks\mock_core_banking.py", line 59, in get_account_summary
+    raise UnknownAccountError(account_ref)
+app.integrations.mocks.mock_core_banking.UnknownAccountError: 'CUST-1'

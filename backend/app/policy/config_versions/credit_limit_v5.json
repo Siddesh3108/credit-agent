@@ -1,0 +1,11 @@
+{
+  "version_id": "v5",
+  "intent": "credit_limit_increase",
+  "effective_from": "2026-01-01T00:00:00+00:00",
+  "approved_by": "ILLUSTRATIVE_PLACEHOLDER -- compliance:raj.patel#CR-2025-1204",
+  "git_commit_sha": "PLACEHOLDER",
+  "ruleset": {
+    "auto_approval_ceiling_pct": 0.25,
+    "max_pd_threshold": 0.08
+  }
+}

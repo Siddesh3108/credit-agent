@@ -1,0 +1,114 @@
+/*
+  Design plan (per frontend-design skill process):
+
+  Subject: a bank customer resolving fee/credit/card issues through a
+  conversational agent whose headline property (per the design doc's own
+  executive summary) is a verifiable, hash-chained audit trail standing
+  in for a human's judgment on every money-moving decision.
+
+  Color (named, 6 values):
+    --ink-900   #182024  primary text / structure -- blue-black, not warm brown
+    --paper-50  #EDF0ED  background -- cool pale sage-gray "ledger paper",
+                         deliberately not the #F4F1EA cream that reads as
+                         a template tell
+    --paper-100 #E1E5DF  card backgrounds
+    --line-300  #C7CCC2  hairline borders / dividers
+    --trust-700 #0D6B57  approved / confirmed actions (deep emerald-teal)
+    --review-700 #8A5A12 manual review / pending (muted ochre-amber)
+    --alert-600 #A23B27  denied / error only, used sparingly (brick-rust,
+                         deliberately distinct from Anthropic's own
+                         #D97757 so it doesn't read as a borrowed accent)
+
+  Type (3 roles):
+    Display/headers: Source Serif 4 -- an even-stroke text serif (not a
+      high-contrast display serif like Fraunces/Canela), so it reads as
+      "official statement," not "editorial magazine."
+    Body: IBM Plex Sans -- clean humanist sans for conversation text.
+    Utility/mono: IBM Plex Mono -- reference codes, amounts, hashes,
+      timestamps. Ties directly to the ledger signature below.
+
+  Layout: standard chat transcript, customer turns right-aligned in ink,
+    agent turns left-aligned on paper-100. The break from generic chat UI
+    is the signature element.
+
+  Signature: the "ledger entry" -- every financial decision (policy
+    decision, execution, escalation) renders as its own bordered card with
+    a monospace sequence number, a color-coded status chip, and an
+    abbreviated hash-chain footer with a small link glyph pointing at the
+    previous entry -- a literal, honest visualization of "this event is
+    cryptographically chained to the one before it," which is the one
+    thing this product does that a generic banking chatbot doesn't.
+
+  Self-critique: chat bubbles use soft radius and the ledger cards are a
+  contained component within a modern layout, not a dense hairline-ruled
+  broadsheet grid -- checked against the three flagged AI-design defaults
+  and this doesn't read as any of them.
+*/
+
+:root {
+  --ink-900: #182024;
+  --ink-700: #3a4650;
+  --paper-50: #edf0ed;
+  --paper-100: #e1e5df;
+  --paper-0: #f8f9f7;
+  --line-300: #c7ccc2;
+  --trust-700: #0d6b57;
+  --trust-50: #e1efe9;
+  --review-700: #8a5a12;
+  --review-50: #f7ecd9;
+  --alert-600: #a23b27;
+  --alert-50: #f7e6e1;
+
+  --font-display: "Source Serif 4", Georgia, serif;
+  --font-body: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --shadow-card: 0 1px 2px rgba(24, 32, 36, 0.06), 0 1px 8px rgba(24, 32, 36, 0.04);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--paper-50);
+  color: var(--ink-900);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--trust-700);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}

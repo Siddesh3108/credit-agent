@@ -1,0 +1,32 @@
+# SCAFFOLD -- Prometheus Alertmanager-style rules illustrating the §1.3 /
+# §12.1 metrics as alert conditions. Never deployed against a real
+# Prometheus instance. Metric names (card_servicing_*) are illustrative
+# and assume you've instrumented the app to emit them -- this repo does
+# not currently emit Prometheus metrics itself (see "Next steps" in the
+# root README).
+groups:
+  - name: card-servicing-agent
+    rules:
+      - alert: AuditChainVerificationFailed
+        expr: card_servicing_audit_chain_intact == 0
+        for: 0m
+        labels:
+          severity: page
+        annotations:
+          summary: "Audit chain verification failed -- §9.6, treat as P1 regardless of time of day"
+
+      - alert: FalseApprovalDetected
+        expr: card_servicing_false_approval_total > 0
+        for: 0m
+        labels:
+          severity: page
+        annotations:
+          summary: "§1.3: 0% tolerance on false approvals -- this is a hard gate, not a metric to trend"
+
+      - alert: TurnLatencyP95High
+        expr: histogram_quantile(0.95, card_servicing_turn_latency_seconds_bucket) > 6
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "p95 turn latency exceeds §12.1's 6s LLM-path SLO"

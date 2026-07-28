@@ -1,0 +1,72 @@
+# nlu/intents.yaml — single source of truth for intent -> flow routing (§4.3).
+# New intents are added by editing this file, not by touching the router's code.
+#
+# Deviation from the doc: each intent gets an `example_utterances` list not
+# present in §4.3's version. The doc's Stage 1 calls for a MiniLM-class
+# sentence-transformer or a fine-tuned DistilBERT classifier trained on
+# historical transcripts -- both need pretrained weights this sandboxed
+# build environment can't download (no Hugging Face Hub access). See
+# app/nlu/embedding_classifier.py's module docstring for the substitution
+# (TF-IDF + cosine similarity) and how to swap in the doc's original
+# approach once you have model-hub access. `example_utterances` is that
+# substitute's training data.
+
+intents:
+  fee_reversal:
+    flow: fee_reversal_flow
+    required_entities: [fee_type]
+    optional_entities: [transaction_reference]
+    policy_ref: fee_reversal_rules@v3
+    example_utterances:
+      - "can you waive my late fee"
+      - "I want to dispute this annual fee"
+      - "please reverse the foreign transaction fee on my last statement"
+      - "why was I charged a late fee, can you refund it"
+      - "remove this fee from my account"
+      - "that annual fee seems unfair, can it be waived"
+      - "I got charged twice, can you fix the fee"
+      - "refund the fx fee please"
+
+  credit_limit_increase:
+    flow: credit_limit_flow
+    required_entities: []
+    optional_entities: [requested_limit]
+    policy_ref: credit_limit_rules@v5
+    example_utterances:
+      - "I'd like to increase my credit limit"
+      - "can you raise my limit to 10000"
+      - "my limit feels too low, can it go up"
+      - "I need a higher credit line"
+      - "bump up my available credit please"
+      - "requesting a credit limit increase"
+      - "can I get more credit on this card"
+
+  card_replacement:
+    flow: card_replacement_flow
+    required_entities: [reason]
+    optional_entities: [shipping_address]
+    policy_ref: card_replacement_rules@v4
+    example_utterances:
+      - "my card was stolen"
+      - "I lost my card somewhere"
+      - "my card is damaged and won't work"
+      - "my card is expiring soon, I need a new one"
+      - "I need to replace my card because of a name change"
+      - "someone stole my wallet with my card in it"
+      - "can you send me a replacement card"
+      - "my card got chewed up in the ATM"
+
+  general_inquiry:
+    flow: general_inquiry_flow
+    required_entities: []
+    optional_entities: []
+    policy_ref: none
+    example_utterances:
+      - "what are your branch hours"
+      - "where are you located"
+      - "how do I contact support"
+      - "what is the customer service number"
+      - "can you help me with something else"
+      - "I have a question about my account"
+      - "general question"
+      - "who is the CEO"

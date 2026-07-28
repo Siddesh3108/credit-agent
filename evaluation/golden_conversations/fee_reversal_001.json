@@ -1,0 +1,10 @@
+{
+  "description": "Standard auto-approved fee reversal -- one entry in what §16.1 calls the golden regression set, replayed on every change to catch classification/policy drift.",
+  "utterance": "please waive my late fee",
+  "expected_intent": "fee_reversal",
+  "expected_entities": {"fee_type": "late_fee"},
+  "seed_account": {"status": "active", "days_past_due": 0},
+  "seed_fee": {"fee_type": "late_fee", "amount": 35.0, "waivers_last_12_months": 0},
+  "expected_decision_outcome": "approved",
+  "expected_reason_codes": ["STANDARD_COURTESY_WAIVER"]
+}

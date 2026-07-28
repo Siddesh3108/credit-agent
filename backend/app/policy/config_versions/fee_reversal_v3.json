@@ -1,0 +1,11 @@
+{
+  "version_id": "v3",
+  "intent": "fee_reversal",
+  "effective_from": "2026-01-01T00:00:00+00:00",
+  "approved_by": "ILLUSTRATIVE_PLACEHOLDER -- compliance:jane.doe#CR-2025-1187",
+  "git_commit_sha": "PLACEHOLDER",
+  "ruleset": {
+    "max_waivers_per_rolling_year": 2,
+    "auto_approval_ceiling_usd": 75.0
+  }
+}
