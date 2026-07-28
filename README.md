@@ -13,7 +13,7 @@ This repository demonstrates:
 - **Developer-friendly local run**: SQLite defaults, mock adapters, and fast boot
 - **Test coverage**: backend test suite runnable with `pytest -q`
 
-## Quickstart
+
 
 ## Quickstart
 
