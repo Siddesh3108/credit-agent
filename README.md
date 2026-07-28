@@ -1,32 +1,37 @@
 # Card Servicing Agent — Reference Implementation
 
-A working, tested implementation of the [End-to-End Card Servicing Agent
-design doc](./card_servicing_agent_design.pdf) (v1.0, July 25 2026): a
-conversational agent that resolves fee reversals, credit limit increases,
-and card replacements, with a deterministic policy engine as the sole
-approval authority and a cryptographically verifiable audit trail.
+A modern full-stack proof-of-concept for a financial customer service bot.
+It includes a backend policy engine, secure audit trail, human escalation
+workflow, and a React admin/chat UI.
 
-**97 backend tests pass** (`cd backend && pytest -q`), including the full
-suite parametrized against a real local Postgres, and the frontend
-builds clean (`cd frontend && npm run build`). This document tells you
-exactly what that coverage means and doesn't mean — read
-["What's real vs. scaffolded"](#whats-real-vs-scaffolded) before you trust
-any of it with real money.
+This repository demonstrates:
+
+- **Full-stack delivery**: FastAPI backend, SQLAlchemy ORM, React + Vite frontend
+- **Enterprise-grade auditability**: immutable hash-chained event logging and verification
+- **AI-assisted NLU**: configurable Stage-2 model integration with a safe local fallback
+- **Manual review workflow**: admin approval/denial on policy escalations
+- **Developer-friendly local run**: SQLite defaults, mock adapters, and fast boot
+- **Test coverage**: backend test suite runnable with `pytest -q`
 
 ## Quickstart
 
-```bash
+## Quickstart
+
+```powershell
 # 1. Backend
 cd backend
-pip install -e ".[dev]" --break-system-packages   # or use a venv
-pytest -q                                          # 97 passed (Postgres tests skip without one running)
-uvicorn app.main:app --reload                      # http://localhost:8000/docs for interactive API docs
+python -m pip install -e ".[dev]"        # use the current Python environment
+pytest -q                                 # 97 passed (Postgres tests skip without one running)
+uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 
 # 2. Frontend (separate terminal)
 cd frontend
 npm install
-npm run dev                                         # http://localhost:5173
+npm run dev -- --host 0.0.0.0 --port 5174
 ```
+
+If port `5173` is already in use, Vite will automatically select the next
+available port (for example `5174`). The backend still runs on `8000`.
 
 No API key, no Postgres, no Docker required to see it run — the backend
 defaults to SQLite and fully-mocked backends (§8.5 of the design doc).
